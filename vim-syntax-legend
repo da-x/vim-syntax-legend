@@ -1,0 +1,59 @@
+#!/bin/bash
+
+function help()
+{
+    echo "syntax: vim-syntax-legend [-i <input>] [-o <output>] [-p prev-input]"
+}
+
+function main()
+{
+    set -u
+    set -e
+
+    local input=""
+    local has_input=0
+    local has_output=0
+
+    while getopts "i:o:p:h" arg; do
+	case $arg in
+	    i)
+		has_input=1
+		input="$OPTARG"
+		;;
+	    h)
+		help
+		exit
+		;;
+	    o)
+		has_output=1
+		export VIM_SYNTAX_LEGEND_OUTPUT_FILE="$OPTARG"
+		;;
+	    p)
+		export VIM_SYNTAX_LEGEND_PREV_FILE="$OPTARG"
+		;;
+	esac
+    done  
+
+    if [[ $has_output != 1 ]] ; then
+	echo "vim-syntax-legend: -o is missing"
+	exit -1
+    fi
+
+    if [[ $has_input != 1 ]] ; then
+	echo "vim-syntax-legend: -i is missing"
+	exit -1
+    fi
+
+    local d=$(dirname $BASH_SOURCE)
+    local f=$(realpath $d/vim-syntax-legend.vim)
+
+    set +e
+    vim -E -s -c "source ${f}" -cqa "$input"
+    E=$?
+    set -e
+
+    return $?
+}
+
+main "$@"
+exit $?
