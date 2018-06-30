@@ -2,7 +2,7 @@
 
 A script to save the result of a Vim syntax highlighting test sample as diff-able text file.
 
-The purpose of the script is to address the testability of changes to the syntax definition files. Using a language sample to highlight, a Vim plugin writer can see the effects of changes to the syntax highlight definitions.
+The purpose of the script is to address the testability of changes to the syntax definition files. Using a language sample to highlight, a Vim plugin writer can precisely see the effects of changes to the syntax highlight definitions. The alternative is to 'eyeball' the syntax highlighting output after changes.
 
 ### Example input and output
 
